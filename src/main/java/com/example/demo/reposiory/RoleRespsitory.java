@@ -12,6 +12,6 @@ import java.util.List;
 public interface RoleRespsitory extends JpaRepository<Role, Integer> {
     @Query("select new Role(r.id, r.name, r.grouprole,r.status) from GroupRole gr join Role r " +
             "on r.grouprole = gr.id where gr.id = :id"
-            )
+    )
     List<Role> getRoleBygrouprole(@Param("id") int id);
 }

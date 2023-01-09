@@ -12,6 +12,7 @@ public class GroupRole {
     private String name;
 
     private boolean status;
+
     public GroupRole() {
     }
 

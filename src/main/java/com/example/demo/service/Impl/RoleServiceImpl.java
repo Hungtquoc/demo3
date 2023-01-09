@@ -49,7 +49,7 @@ public class RoleServiceImpl implements RoleService {
 
         Page<Role> pagedResult = roleRespsitory.findAll(paging);
 
-        if(pagedResult.hasContent()) {
+        if (pagedResult.hasContent()) {
             return new RoleDTO(pagedResult.getContent(), pagedResult.getTotalElements());
         } else {
             return new RoleDTO();
@@ -59,11 +59,11 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public Role disableRole(int id) {
         Role role = roleRespsitory.findById(id).orElse(null);
-         if(role.isStatus()==true){
-             role.setStatus(false);
-         }else{
-             role.setStatus(true);
-         }
+        if (role.isStatus() == true) {
+            role.setStatus(false);
+        } else {
+            role.setStatus(true);
+        }
         return roleRespsitory.save(role);
     }
 
@@ -71,8 +71,9 @@ public class RoleServiceImpl implements RoleService {
     public List<Role> ListOfRole() {
         return roleRespsitory.findAll();
     }
+
     @Override
-    public List<Role> ListRoleByGroupRoleID(int id){
+    public List<Role> ListRoleByGroupRoleID(int id) {
         return roleRespsitory.getRoleBygrouprole(id);
     }
 

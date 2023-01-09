@@ -11,6 +11,7 @@ public class Role {
     private String name;
     private int grouprole;
     private boolean status;
+
     public Role() {
     }
 
@@ -50,6 +51,6 @@ public class Role {
     }
 
     public void setGrouprole(int grouprole) {
-        this.grouprole=grouprole;
+        this.grouprole = grouprole;
     }
 }

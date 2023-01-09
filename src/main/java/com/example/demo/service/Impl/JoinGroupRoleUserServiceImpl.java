@@ -8,10 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
 @Service
 public class JoinGroupRoleUserServiceImpl implements JoinGroupRoleUserService {
     @Autowired
     JoinGroupRoleUserRepository joinGroupRoleUserRepository;
+
     @Override
     public JoinGroupRoleUser addNewUser(int userId, int groupRoleId) throws Exception {
         JoinGroupRoleUser joinGroupRoleUser = new JoinGroupRoleUser();
@@ -27,7 +29,7 @@ public class JoinGroupRoleUserServiceImpl implements JoinGroupRoleUserService {
 
     @Override
     public String deletUser(int id) {
-         joinGroupRoleUserRepository.deleteById(id);
-         return "Xoa thanh cong";
+        joinGroupRoleUserRepository.deleteById(id);
+        return "Xoa thanh cong";
     }
 }

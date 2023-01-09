@@ -29,6 +29,7 @@ public class UserServiceImpl implements UserService {
     JoinGroupUserRepository joinGroupUserRepository;
     @Autowired
     JdbcTemplate jdbcTemplate;
+
     private class UserRowMapper implements RowMapper<User> {
         @Override
         public User mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -43,6 +44,7 @@ public class UserServiceImpl implements UserService {
             return user;
         }
     }
+
     private class JoinGroupUserRowMapper implements RowMapper<JoinGroupUser> {
         @Override
         public JoinGroupUser mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -53,6 +55,7 @@ public class UserServiceImpl implements UserService {
             return user;
         }
     }
+
     @Override
     public List<User> ListOfUser() {
         return userRepository.findAll();
@@ -162,7 +165,7 @@ public class UserServiceImpl implements UserService {
                                 "where " +
                                 "id not in ( select user_id from fis.join_group_user j " +
                                 "where  group_user_id= ? )",
-                new UserRowMapper(), new Object[]{id});
+                        new UserRowMapper(), new Object[]{id});
     }
 
     @Override
@@ -191,22 +194,23 @@ public class UserServiceImpl implements UserService {
 //        }
         return user;
     }
-    public User addNewUser(String username, User u) throws Exception{
+
+    public User addNewUser(String username, User u) throws Exception {
         List<User> user = jdbcTemplate.query("" +
                         "select u.id, u.username, u.password, u.status, r.role_id, u.group_user_id, u.group_role_id " +
                         "from fis.user u join fis.join_role_user r \n" +
                         "on u.id = r.user_id where u.username = ?",
                 new UserRowMapper(), new Object[]{username});
         List<User> userList = userRepository.findAll();
-        for (User user1 : user){
-            if (user1.getRole() == 1 || user1.getRole() ==2){
-                if (user1.isStatus()){
+        for (User user1 : user) {
+            if (user1.getRole() == 1 || user1.getRole() == 2) {
+                if (user1.isStatus()) {
                     for (User user2 : userList)
-                        if (user2.getUsername() != u.getUsername()){
+                        if (user2.getUsername() != u.getUsername()) {
                             return insertUser(u);
                         }
                 }
-            }else{
+            } else {
                 throw new Exception("Người dùng không có quyền được thêm người dùng mới");
             }
         }

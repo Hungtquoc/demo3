@@ -52,7 +52,6 @@ public class UserController {
     public ResponseEntity<User> login(@RequestParam String username, @RequestParam String password) throws Exception {
 
 
-
         return new ResponseEntity<>(userService.logging(username, password), HttpStatus.OK);
     }
 
@@ -70,8 +69,9 @@ public class UserController {
     public ResponseEntity<List<User>> listdiff(@RequestParam int id) {
         return new ResponseEntity<>(userService.listDiff(id), HttpStatus.OK);
     }
+
     @GetMapping("/userinfo")
-    public ResponseEntity<?> userInfor(@RequestParam String username){
+    public ResponseEntity<?> userInfor(@RequestParam String username) {
         return new ResponseEntity<>(userService.userInfo(username), HttpStatus.OK);
     }
 }

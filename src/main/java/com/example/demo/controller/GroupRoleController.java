@@ -20,31 +20,37 @@ import java.util.List;
 public class GroupRoleController {
     @Autowired
     GroupRoleService roleService;
+
     @GetMapping("/pagging")
     public ResponseEntity<GroupRoleDTO> pagination(@RequestParam(defaultValue = "0") Integer pageNo,
                                                    @RequestParam(defaultValue = "5") Integer pageSize,
-                                                   @RequestParam(defaultValue = "id") String sortBy){
+                                                   @RequestParam(defaultValue = "id") String sortBy) {
         GroupRoleDTO groupRoleDTO = roleService.getAllGroupRole(pageNo, pageSize, sortBy);
         return new ResponseEntity<GroupRoleDTO>(groupRoleDTO, new HttpHeaders(), HttpStatus.OK);
     }
+
     @PostMapping("/update")
-    public ResponseEntity<?> updateRole(@RequestBody GroupRole role){
-        return new ResponseEntity<GroupRole>(roleService.updateGR(role), HttpStatus.OK );
+    public ResponseEntity<?> updateRole(@RequestBody GroupRole role) {
+        return new ResponseEntity<GroupRole>(roleService.updateGR(role), HttpStatus.OK);
     }
+
     @PostMapping("/add")
-    public ResponseEntity<?> addRole(@RequestBody GroupRole role){
+    public ResponseEntity<?> addRole(@RequestBody GroupRole role) {
         return new ResponseEntity<GroupRole>(roleService.insertGR(role), HttpStatus.OK);
     }
+
     @GetMapping("/roleAtId")
-    public ResponseEntity<?> getOneRole(@RequestParam int id){
+    public ResponseEntity<?> getOneRole(@RequestParam int id) {
         return new ResponseEntity<GroupRole>(roleService.getGRById(id), HttpStatus.OK);
     }
+
     @PostMapping("/disableRole")
-    public ResponseEntity<?> disableRole(@RequestParam int id){
+    public ResponseEntity<?> disableRole(@RequestParam int id) {
         return new ResponseEntity<GroupRole>(roleService.disableGR(id), HttpStatus.OK);
     }
+
     @GetMapping("/getall")
-    public ResponseEntity<List<GroupRole>> getAll(){
+    public ResponseEntity<List<GroupRole>> getAll() {
         return new ResponseEntity<>(roleService.getAll(), HttpStatus.OK);
     }
 }

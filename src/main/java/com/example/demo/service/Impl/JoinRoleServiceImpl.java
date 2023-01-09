@@ -7,10 +7,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
 @Service
 public class JoinRoleServiceImpl implements JoinRoleUserService {
     @Autowired
     JoinGroupRoleRespositoty joinGroupRoleRespositoty;
+
     @Override
     public List<JoinRoleUser> listOfUserInRole() {
         return null;
@@ -18,7 +20,7 @@ public class JoinRoleServiceImpl implements JoinRoleUserService {
 
     @Override
     public JoinRoleUser addNewUser(int userId, int roleId) {
-        JoinRoleUser user= new JoinRoleUser();
+        JoinRoleUser user = new JoinRoleUser();
         user.setUserId(userId);
         user.setRoleId(roleId);
         return joinGroupRoleRespositoty.save(user);

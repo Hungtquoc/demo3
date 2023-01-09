@@ -20,6 +20,7 @@ public class User {
     private boolean status;
     private int group_user_id;
     private int group_role_id;
+
     public User() {
     }
 

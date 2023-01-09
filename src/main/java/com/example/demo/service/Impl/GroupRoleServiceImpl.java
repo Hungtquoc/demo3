@@ -18,9 +18,10 @@ public class GroupRoleServiceImpl implements GroupRoleService {
 
     @Autowired
     private GroupRoleRespsitory groupRoleRespsitory;
+
     @Override
     public GroupRole getGRById(int id) {
-        GroupRole  groupRole = groupRoleRespsitory.findById(id).orElse(null);
+        GroupRole groupRole = groupRoleRespsitory.findById(id).orElse(null);
         return groupRole;
     }
 
@@ -30,7 +31,7 @@ public class GroupRoleServiceImpl implements GroupRoleService {
 
         Page<GroupRole> pagedResult = groupRoleRespsitory.findAll(paging);
 
-        if(pagedResult.hasContent()) {
+        if (pagedResult.hasContent()) {
             return new GroupRoleDTO(pagedResult.getContent(), pagedResult.getTotalElements());
         } else {
             return new GroupRoleDTO();
@@ -40,9 +41,9 @@ public class GroupRoleServiceImpl implements GroupRoleService {
     @Override
     public GroupRole disableGR(int id) {
         GroupRole groupRole = groupRoleRespsitory.findById(id).orElse(null);
-        if(groupRole.getStatus() == true){
+        if (groupRole.getStatus() == true) {
             groupRole.setStatus(false);
-        }else {
+        } else {
             groupRole.setStatus(true);
         }
         return groupRoleRespsitory.save(groupRole);

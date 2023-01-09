@@ -16,26 +16,32 @@ import org.springframework.web.bind.annotation.*;
 public class JoinGroupUserController {
     @Autowired
     JoinGroupUserService joinGroupUserService;
+
     @GetMapping("/list")
     public ResponseEntity<?> listofUser(@RequestParam int id) {
         return new ResponseEntity<>(joinGroupUserService.getJoinGroupUserById(id), HttpStatus.OK);
     }
-    @PostMapping ("/add")
-    public ResponseEntity<?> addNewUser(@RequestParam int userId, @RequestParam int groupUserId) throws Exception{
+
+    @PostMapping("/add")
+    public ResponseEntity<?> addNewUser(@RequestParam int userId, @RequestParam int groupUserId) throws Exception {
         return new ResponseEntity<JoinGroupUser>(joinGroupUserService.addNewUser(userId, groupUserId), HttpStatus.OK);
     }
-    @GetMapping ("/getUser")
-    public ResponseEntity<?> getUserById(@RequestParam int id){
+
+    @GetMapping("/getUser")
+    public ResponseEntity<?> getUserById(@RequestParam int id) {
         return new ResponseEntity<JoinGroupUser>(joinGroupUserService.getGroupUserbById(id), HttpStatus.OK);
     }
+
     @PostMapping("/update")
-    public ResponseEntity<?> updateUser(@RequestBody JoinGroupUser user) throws Exception{
+    public ResponseEntity<?> updateUser(@RequestBody JoinGroupUser user) throws Exception {
         return new ResponseEntity<JoinGroupUser>(joinGroupUserService.updateUser(user), HttpStatus.OK);
     }
+
     @PostMapping("/delete")
-    public ResponseEntity<?> deleteUser(@RequestParam int id){
+    public ResponseEntity<?> deleteUser(@RequestParam int id) {
         return new ResponseEntity<String>(joinGroupUserService.deletUser(id), HttpStatus.OK);
     }
+
     @GetMapping("/listUser")
     public ResponseEntity<?> listofUserById(@RequestParam int id) {
         return new ResponseEntity<>(joinGroupUserService.listOfUserInGroup(id), HttpStatus.OK);
