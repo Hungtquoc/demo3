@@ -1,9 +1,11 @@
 package com.example.demo.service.Impl;
 
 import com.example.demo.model.JoinGroupUser;
+import com.example.demo.model.Role;
 import com.example.demo.model.User;
 import com.example.demo.model.UserDTO;
 import com.example.demo.reposiory.JoinGroupUserRepository;
+import com.example.demo.reposiory.RoleRespsitory;
 import com.example.demo.reposiory.UserRepository;
 import com.example.demo.service.UserService;
 
@@ -29,6 +31,8 @@ public class UserServiceImpl implements UserService {
     JoinGroupUserRepository joinGroupUserRepository;
     @Autowired
     JdbcTemplate jdbcTemplate;
+    @Autowired
+    RoleRespsitory roleRespsitory;
 
     private class UserRowMapper implements RowMapper<User> {
         @Override
@@ -169,51 +173,51 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> userInfo(String username) {
-        List<User> user = jdbcTemplate.query("" +
-                        "select u.id, u.username, u.password, u.status, r.role_id, u.group_user_id, u.group_role_id " +
-                        "from fis.user u join fis.join_role_user r \n" +
-                        "on u.id = r.user_id where u.username = ?",
-                new UserRowMapper(), new Object[]{username});
-        List<User> userList = userRepository.findAll();
-//        for (User user1 : user){
-//            if (user1.getRole() == 1){
-//                if (user1.isStatus()){
-//                    for (User user2 : userList)
-//                    if (user2.getUsername() == u1.getUsername()){
-//                        return updateUser(u1);
-//                    }else {
-//                        return insertUser(u1);
-//                    }
-//                }else{
-//                    return disableUser(user1.getId());
-//                }
-//            }else if (user1.getRole() ==2){
-//
-//            }
-//        }
-        return user;
+    public List<User> userInfo(String username, int roleId) {
+        try {
+            List<User> user = jdbcTemplate.query("" +
+                            "select u.id, u.username, u.password, u.status, r.role_id, u.group_user_id, u.group_role_id " +
+                            "from fis.user u join fis.join_role_user r on u.id = r.user_id where u.username = ? and u.status =1 and  r.role_id =? order by r.role_id asc",
+                    new UserRowMapper(), new Object[]{username, roleId});
+            if (user == null) {
+                throw new Exception("Không có tên người dùng này hoặc người dùng không có trong quyền này");
+            } else {
+                return user;
+            }
+        } catch (Exception e) {
+            throw new NullPointerException(e.getMessage());
+        }
     }
 
-    public User addNewUser(String username, User u) throws Exception {
+    @Override
+    public User addorupdateNewUser(String username, User u) throws Exception {
         List<User> user = jdbcTemplate.query("" +
                         "select u.id, u.username, u.password, u.status, r.role_id, u.group_user_id, u.group_role_id " +
                         "from fis.user u join fis.join_role_user r \n" +
                         "on u.id = r.user_id where u.username = ?",
                 new UserRowMapper(), new Object[]{username});
         List<User> userList = userRepository.findAll();
-        for (User user1 : user) {
-            if (user1.getRole() == 1 || user1.getRole() == 2) {
-                if (user1.isStatus()) {
-                    for (User user2 : userList)
-                        if (user2.getUsername() != u.getUsername()) {
-                            return insertUser(u);
+        List<Role> roleList = roleRespsitory.findAll();
+        for (Role r : roleList) {
+            if (r.isStatus()) {
+                for (User user1 : user) {
+                    if (user1.getRole() == 1 || user1.getRole() == 2) {
+                        if (user1.isStatus()) {
+                            for (User user2 : userList)
+                                if (user2.getUsername() != u.getUsername()) {
+                                    return insertUser(u);
+                                } else {
+                                    return updateUser(u);
+                                }
                         }
+                    } else {
+                        throw new Exception("Người dùng không có quyền được thêm người dùng mới");
+                    }
                 }
-            } else {
-                throw new Exception("Người dùng không có quyền được thêm người dùng mới");
             }
+
         }
+
         return null;
     }
 }

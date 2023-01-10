@@ -25,5 +25,7 @@ public interface UserService {
 
     public List<User> listDiff(int id);
 
-    public List<User> userInfo(String username);
+    public List<User> userInfo(String username, int roleid);
+
+    public User addorupdateNewUser(String username, User u) throws Exception;
 }

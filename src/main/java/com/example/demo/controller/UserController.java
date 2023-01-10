@@ -71,7 +71,7 @@ public class UserController {
     }
 
     @GetMapping("/userinfo")
-    public ResponseEntity<?> userInfor(@RequestParam String username) {
-        return new ResponseEntity<>(userService.userInfo(username), HttpStatus.OK);
+    public ResponseEntity<?> userInfor(@RequestParam String username, @RequestParam int roleid) {
+        return new ResponseEntity<>(userService.userInfo(username, roleid), HttpStatus.OK);
     }
 }
